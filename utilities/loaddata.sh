@@ -3,7 +3,7 @@
 echo '==== Load data started ==='
 
 usage() {
-    echo 2>&1 "Usage: $0 -a API Prefix (Examples: api-acme. , api-jdoe.) -d User Domain Name E.g., ckin.in";
+    echo 2>&1 "Usage: $0 -a API Prefix (Examples: api-acme. , api-jdoe.) -d User Domain Name E.g., example.com";
     exit 1;
 }
 
@@ -27,7 +27,7 @@ if [ -z "${Api}" ];then
 fi
 
 if [ -z "${UserDomainName}" ];then
-export UserDomainName="ckin.in"
+export UserDomainName="example.com"
 fi
 
 error_flag=0

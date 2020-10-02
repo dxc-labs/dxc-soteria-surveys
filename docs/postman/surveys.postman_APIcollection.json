@@ -174,7 +174,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"ram@dxc.com\",\n    \"info\": {\n      \"temperature\": 108,\n      \"exercise\": 60,\n      \"healthcondition\": \" Improved\",\n      \"dependents\": \"Yes\",\n      \"dependentshealth\": \" Good\",\n       \"symptoms\": [\n      \"Chest pain/pressure\",\n      \"Bluish lips/face\",\n      \"Headache\"\n    ]\n    }\n}",
+					"raw": "{\n    \"email\": \"ram@example.com\",\n    \"info\": {\n      \"temperature\": 108,\n      \"exercise\": 60,\n      \"healthcondition\": \" Improved\",\n      \"dependents\": \"Yes\",\n      \"dependentshealth\": \" Good\",\n       \"symptoms\": [\n      \"Chest pain/pressure\",\n      \"Bluish lips/face\",\n      \"Headache\"\n    ]\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"

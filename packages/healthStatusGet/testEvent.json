@@ -1,6 +1,6 @@
 {
     "resource": "/healthstatus/{userId}",
-    "path": "/surveys/healthstatus/Sv-RLRkLThG1n1sKd6YGLw",
+    "path": "/surveys/healthstatus/xxx",
     "httpMethod": "GET",
     "headers": {
         "Accept": "application/json, text/plain, */*",
@@ -13,17 +13,17 @@
         "CloudFront-Is-SmartTV-Viewer": "false",
         "CloudFront-Is-Tablet-Viewer": "false",
         "CloudFront-Viewer-Country": "IN",
-        "Host": "api-rthoutu.ckin.in",
-        "origin": "https://rthoutu.ckin.in",
-        "Referer": "https://rthoutu.ckin.in/surveys/healthReportingStatus/success/Sv-RLRkLThG1n1sKd6YGLw",
+        "Host": "api-xxx.example.com",
+        "origin": "https://xxx.example.com",
+        "Referer": "https://xxx.example.com/surveys/healthReportingStatus/success/xxx",
         "sec-fetch-dest": "empty",
         "sec-fetch-mode": "cors",
         "sec-fetch-site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36 Edg/85.0.564.44",
-        "Via": "2.0 a9df96d65a57a16555d193b481351775.cloudfront.net (CloudFront)",
-        "X-Amz-Cf-Id": "cuKg-DyoapRtmv9PmqaW8WVsI7f1t4bbmZbIEvv3oUwC8VL3XZp86A==",
-        "X-Amzn-Trace-Id": "Root=1-5f565e69-6745f29472ac25c09ecc8596",
-        "X-Forwarded-For": "183.83.37.243, 70.132.25.70",
+        "Via": "2.0 xxx.cloudfront.net (CloudFront)",
+        "X-Amz-Cf-Id": "xxx",
+        "X-Amzn-Trace-Id": "xxx",
+        "X-Forwarded-For": "xxx",
         "X-Forwarded-Port": "443",
         "X-Forwarded-Proto": "https"
     },
@@ -38,7 +38,7 @@
             "en-US,en;q=0.9"
         ],
         "Authorization": [
-            "Io9Su4DdThuYrzGc42HQOA"
+            "xxx"
         ],
         "CloudFront-Forwarded-Proto": [
             "https"
@@ -59,13 +59,13 @@
             "IN"
         ],
         "Host": [
-            "api-rthoutu.ckin.in"
+            "api-xxx.example.com"
         ],
         "origin": [
-            "https://rthoutu.ckin.in"
+            "https://xxx.example.com"
         ],
         "Referer": [
-            "https://rthoutu.ckin.in/surveys/healthReportingStatus/success/Sv-RLRkLThG1n1sKd6YGLw"
+            "https://xxx.example.com/surveys/healthReportingStatus/success/xxx"
         ],
         "sec-fetch-dest": [
             "empty"
@@ -80,16 +80,16 @@
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36 Edg/85.0.564.44"
         ],
         "Via": [
-            "2.0 a9df96d65a57a16555d193b481351775.cloudfront.net (CloudFront)"
+            "2.0 xxx.cloudfront.net (CloudFront)"
         ],
         "X-Amz-Cf-Id": [
-            "cuKg-DyoapRtmv9PmqaW8WVsI7f1t4bbmZbIEvv3oUwC8VL3XZp86A=="
+            "xxx"
         ],
         "X-Amzn-Trace-Id": [
-            "Root=1-5f565e69-6745f29472ac25c09ecc8596"
+            "xxx"
         ],
         "X-Forwarded-For": [
-            "183.83.37.243, 70.132.25.70"
+            "xxx"
         ],
         "X-Forwarded-Port": [
             "443"
@@ -101,28 +101,28 @@
     "queryStringParameters": null,
     "multiValueQueryStringParameters": null,
     "pathParameters": {
-        "userId": "Sv-RLRkLThG1n1sKd6YGLw"
+        "userId": "xxx"
     },
     "stageVariables": null,
     "requestContext": {
         "resourceId": "drts1u",
         "resourcePath": "/healthstatus/{userId}",
         "httpMethod": "GET",
-        "extendedRequestId": "SgOwcFIKoAMFnhA=",
+        "extendedRequestId": "xxx",
         "requestTime": "07/Sep/2020:16:23:05 +0000",
-        "path": "/surveys/healthstatus/Sv-RLRkLThG1n1sKd6YGLw",
-        "accountId": "820984078938",
+        "path": "/surveys/healthstatus/xxx",
+        "accountId": "123456789012",
         "protocol": "HTTP/1.1",
         "stage": "sbx",
         "domainPrefix": "api-rthoutu",
         "requestTimeEpoch": 1599495785172,
-        "requestId": "3d0ad62a-ab5e-4a0d-8ee1-7c2a48738768",
+        "requestId": "xxx",
         "identity": {
             "cognitoIdentityPoolId": null,
             "accountId": null,
             "cognitoIdentityId": null,
             "caller": null,
-            "sourceIp": "183.83.37.243",
+            "sourceIp": "xxx",
             "principalOrgId": null,
             "accessKey": null,
             "cognitoAuthenticationType": null,
@@ -131,8 +131,8 @@
             "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36 Edg/85.0.564.44",
             "user": null
         },
-        "domainName": "api-rthoutu.ckin.in",
-        "apiId": "g3o3awhs97"
+        "domainName": "api-xxx.example.com",
+        "apiId": "xxx"
     },
     "body": null,
     "isBase64Encoded": false

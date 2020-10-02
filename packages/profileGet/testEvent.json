@@ -1,9 +1,9 @@
 {
     "headers": {
-        "Authorization": "Io9Su4DdThuYrzGc42HQOA"
+        "Authorization": "xxx"
     },
     "pathParameters": {
-        "userId": "Sv-RLRkLThG1n1sKd6YGLw"
+        "userId": "xxx"
     },
     "body": null
 }

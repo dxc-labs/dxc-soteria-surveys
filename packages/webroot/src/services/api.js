@@ -9,7 +9,7 @@ const formApi = axios.create({
 
 const generalApi = axios.create({
   baseURL: `https://${process.env.REACT_APP_API_USER_DOMAIN}/surveys`,
-  //baseURL: 'https://api.hwsrdev.example.com',
+  //baseURL: 'https://api.xxx.example.com',
   headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 });
 

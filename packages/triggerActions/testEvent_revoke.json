@@ -1,7 +1,7 @@
 {
     "Records": [
         {
-            "eventID": "b9e5e6a58b4bd77c33059e6d4f3bcfca",
+            "eventID": "xxx",
             "eventName": "INSERT",
             "eventVersion": "1.1",
             "eventSource": "aws:dynamodb",
@@ -13,12 +13,12 @@
                         "N": "1599582161364"
                     },
                     "userId": {
-                        "S": "Sv-RLRkLThG1n1sKd6YGLw"
+                        "S": "xxx"
                     }
                 },
                 "NewImage": {
                     "surveyId": {
-                        "S": "ZCeRHBZZTN2Z5zB80RFzVg"
+                        "S": "xxx"
                     },
                     "createdDate": {
                         "N": "1599582161364"
@@ -95,17 +95,17 @@
                         "N": "1601310161326"
                     },
                     "userId": {
-                        "S": "Sv-RLRkLThG1n1sKd6YGLw"
+                        "S": "xxx"
                     },
                     "healthProfileId": {
-                        "S": "W7PnXbZ8SGGnCZySQM_oEg"
+                        "S": "xxx"
                     }
                 },
-                "SequenceNumber": "52589500000000023734351807",
+                "SequenceNumber": "xxx",
                 "SizeBytes": 522,
                 "StreamViewType": "NEW_AND_OLD_IMAGES"
             },
-            "eventSourceARN": "arn:aws:dynamodb:us-east-1:820984078938:table/soteria-rthoutu-sbx-surveys-healthprofiles/stream/2020-08-28T13:25:20.354"
+            "eventSourceARN": "arn:aws:dynamodb:us-east-1:123456789012:table/soteria-xxx-sbx-surveys-healthprofiles/stream/2020-08-28T13:25:20.354"
         }
     ]
 }
