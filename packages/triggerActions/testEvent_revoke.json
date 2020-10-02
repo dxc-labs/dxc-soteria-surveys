@@ -1,0 +1,111 @@
+{
+    "Records": [
+        {
+            "eventID": "b9e5e6a58b4bd77c33059e6d4f3bcfca",
+            "eventName": "INSERT",
+            "eventVersion": "1.1",
+            "eventSource": "aws:dynamodb",
+            "awsRegion": "us-east-1",
+            "dynamodb": {
+                "ApproximateCreationDateTime": 1599582161,
+                "Keys": {
+                    "createdDate": {
+                        "N": "1599582161364"
+                    },
+                    "userId": {
+                        "S": "Sv-RLRkLThG1n1sKd6YGLw"
+                    }
+                },
+                "NewImage": {
+                    "surveyId": {
+                        "S": "ZCeRHBZZTN2Z5zB80RFzVg"
+                    },
+                    "createdDate": {
+                        "N": "1599582161364"
+                    },
+                    "surveyAnswers": {
+                        "M": {
+                            "symptoms": {
+                                "L": [
+                                    {
+                                        "S": "Dry Cough"
+                                    },
+                                    {
+                                        "S": "Sore Throat"
+                                    },
+                                    {
+                                        "S": "Shortness of Breath"
+                                    },
+                                    {
+                                        "S": "Chest Pain/ pressure"
+                                    },
+                                    {
+                                        "S": "Confusion/ problems thinking"
+                                    },
+                                    {
+                                        "S": "Fatigue"
+                                    },
+                                    {
+                                        "S": "Bluish lips/ face"
+                                    },
+                                    {
+                                        "S": "Aches and Pain"
+                                    },
+                                    {
+                                        "S": "Headache"
+                                    },
+                                    {
+                                        "S": "Sneezing"
+                                    },
+                                    {
+                                        "S": "Stuffy/ runny Nose"
+                                    },
+                                    {
+                                        "S": "Loss of appetite/ smell"
+                                    },
+                                    {
+                                        "S": "Vomiting"
+                                    },
+                                    {
+                                        "S": "Diarrhea"
+                                    }
+                                ]
+                            },
+                            "overallHealthStatus": {
+                                "S": "Declined"
+                            },
+                            "positiveContact": {
+                                "S": "Yes"
+                            },
+                            "spo2": {
+                                "S": "< 90"
+                            },
+                            "temperature": {
+                                "S": "Severe"
+                            },
+                            "travelHistory": {
+                                "S": "Yes"
+                            }
+                        }
+                    },
+                    "updatedDate": {
+                        "N": "1599582161364"
+                    },
+                    "ttl": {
+                        "N": "1601310161326"
+                    },
+                    "userId": {
+                        "S": "Sv-RLRkLThG1n1sKd6YGLw"
+                    },
+                    "healthProfileId": {
+                        "S": "W7PnXbZ8SGGnCZySQM_oEg"
+                    }
+                },
+                "SequenceNumber": "52589500000000023734351807",
+                "SizeBytes": 522,
+                "StreamViewType": "NEW_AND_OLD_IMAGES"
+            },
+            "eventSourceARN": "arn:aws:dynamodb:us-east-1:820984078938:table/soteria-rthoutu-sbx-surveys-healthprofiles/stream/2020-08-28T13:25:20.354"
+        }
+    ]
+}

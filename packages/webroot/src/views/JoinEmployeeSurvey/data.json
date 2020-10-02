@@ -1,0 +1,39 @@
+{
+ "sk": "named-form",
+ "id": "JoinSurvey",
+ "name": "JoinSurvey",
+ "category1": "default",
+ "category2": "default",
+ "country": "default",
+ "mandatedDays": "default",
+  "form":{
+    "title": "Join Survey",
+    "questions": [
+        {
+            "options":{
+                "key":1,
+                "field":"Provide your email to join Project Soteria survey"
+            },
+            "type": "Typographys"
+          },
+          {
+            "options":{
+                "key":2,
+                "field":"E-mail",
+                "name":"email",
+                "type": "email",
+                "required": true
+            },
+            "type": "TextFields"
+          },
+          {
+            "options":{
+                "key":3,
+                "field":"Join Survey",
+                "type": "submit"
+            },
+            "type": "SubmitButton"
+          }
+      ]
+  }
+}

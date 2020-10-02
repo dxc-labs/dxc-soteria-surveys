@@ -1,0 +1,74 @@
+.MuiTypography-colorInherit {
+    color: inherit;
+}
+/* CSS for Typography variant= "h1" */
+.MuiTypography-h1 {
+    font-size: 6rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 300;
+    line-height: 1.167;
+    letter-spacing: -0.01562em;
+}
+
+/* CSS for Typography variant= "h2" */
+.MuiTypography-h2 {
+    font-size: 3.75rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: -0.00833em;
+}
+
+/* CSS for Typography variant= "h3" */
+.MuiTypography-h3 {
+    font-size: 3rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1.167;
+    letter-spacing: 0em;
+}
+
+/* CSS for Typography variant= "h4" */
+.MuiTypography-h4 {
+    font-size: 2.125rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1.235;
+    letter-spacing: 0.00735em;
+}
+
+/* CSS for Typography variant= "h5" */
+.MuiTypography-h5 {
+    font-size: 1.5rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1.334;
+    letter-spacing: 0em;
+}
+
+/* CSS for Typography variant= "h6" */
+.MuiTypography-h6 {
+    font-size: 1.25rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0.0075em;
+}
+
+/* CSS for Typography variant= "subtitle1" */
+.MuiTypography-subtitle1 {
+    font-size: 1rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1.75;
+    letter-spacing: 0.00938em;
+}
+
+/* CSS for Typography variant= "caption" */
+.MuiTypography-caption {
+    font-size: 0.75rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1.66;
+    letter-spacing: 0.03333em;
+}

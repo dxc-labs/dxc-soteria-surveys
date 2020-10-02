@@ -1,0 +1,614 @@
+openapi: "3.0.1"
+info:
+  title: "Surveys API"
+  version: "0.0.1"
+  description: "API for the Project Soteria Surveys Module"
+
+paths:
+  /admin/messageOfTheDay:
+    patch:
+      description: "Update message of the day. Require admin access"
+      responses:
+        200:
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      security:
+      - SurveysAuth: []
+      x-amazon-apigateway-integration:
+        credentials:
+          Fn::Sub: "${ApiGatewayLambdaRole.Arn}"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UpdateMessageOfTheDay.Arn}/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+    options:
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
+  /admin/isMessageOfTheDayCustom:
+    get:
+      description: "Check for custom file in s3. Require admin access"
+      responses:
+        200:
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      security:
+      - SurveysAuth: []
+      x-amazon-apigateway-integration:
+        credentials:
+          Fn::Sub: "${ApiGatewayLambdaRole.Arn}"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${IsMessageOfTheDayCustom.Arn}/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+    options:
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
+  /profiles/{userId}:
+    get:
+      description: "Get user profile details by userId. This API has public access"
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        credentials:
+          Fn::Sub: "${ApiGatewayLambdaRole.Arn}"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ProfileGet.Arn}/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+    options:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
+  /healthprofiles:
+    post:
+      description: "Add health details. This API is for inter-component and testing purposes "
+      responses:
+        200:
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        credentials:
+          Fn::Sub: "${ApiGatewayLambdaRole.Arn}"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${HealthInsert.Arn}/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+    options:
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
+  /profiles:
+    post:
+      description: "Add user details. This API is for inter-component and testing purposes"
+      responses:
+        200:
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        credentials:
+          Fn::Sub: "${ApiGatewayLambdaRole.Arn}"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${EnrollmentInsert.Arn}/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+    options:
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
+  /healthstatus/{userId}:
+    get:
+      description: "Get health status by userId. This API has public access"
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        credentials:
+          Fn::Sub: "${ApiGatewayLambdaRole.Arn}"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${HealthStatusGet.Arn}/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+    options:
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
+  /profiles/findByUser:
+    delete:
+      description: "Delete user details. To be used when user opts-out of holding any privacy data. This API is for inter-component and testing purposes"
+      parameters:
+      - name: "userId"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      security:
+      - api_key: []
+      x-amazon-apigateway-integration:
+        credentials:
+          Fn::Sub: "${ApiGatewayLambdaRole.Arn}"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UserDelete.Arn}/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+    options:
+      parameters:
+      - name: "userId"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
+  /messageOfTheDay:
+    patch:
+      description: "Update message of the day. This API is for inter-component and testing purposes"
+      responses:
+        200:
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        credentials:
+          Fn::Sub: "${ApiGatewayLambdaRole.Arn}"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UpdateMessageOfTheDay.Arn}/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+    options:
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
+  /isMessageOfTheDayCustom:
+    get:
+      description: "Check for custom file in s3. This API is for inter-component and testing purposes"
+      responses:
+        200:
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        credentials:
+          Fn::Sub: "${ApiGatewayLambdaRole.Arn}"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${IsMessageOfTheDayCustom.Arn}/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+    options:
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
+
+  /findBySurvey/{email}/{surveyId}:
+    get:
+      description: "Get survey details status by email and surveyId. This API is for ui testing purposes"
+      parameters:
+      - name: "email"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "surveyId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      security:
+      - api_key: []
+      x-amazon-apigateway-integration:
+        credentials:
+          Fn::Sub: "${ApiGatewayLambdaRole.Arn}"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${FindBySurvey.Arn}/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+    options:
+      parameters:
+      - name: "email"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "surveyId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
+components:
+  schemas:
+    Empty:
+      title: "Empty Schema"
+      type: "object"
+  securitySchemes:
+    SurveysAuth:
+      type: "apiKey"
+      name: "Authorization"
+      in: "header"
+      x-amazon-apigateway-authtype: "cognito_user_pools"
+      x-amazon-apigateway-authorizer:
+        providerARNs:
+          - Fn::Sub:
+              "${CognitoUserPoolArn}"
+        type: "cognito_user_pools"
+    api_key:
+      type: "apiKey"
+      name: "x-api-key"
+      in: "header"

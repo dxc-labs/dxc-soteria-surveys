@@ -1,0 +1,14 @@
+{
+    "resource": "/isMessageOfTheDayCustom",
+    "path": "/surveys/isMessageOfTheDayCustom",
+    "httpMethod": "GET",
+    "headers": {
+    },
+    "multiValueHeaders": {
+    },
+    "queryStringParameters": null,
+    "pathParameters": {
+    },
+    "body": "",
+    "isBase64Encoded": false
+}

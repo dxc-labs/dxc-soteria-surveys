@@ -1,0 +1,205 @@
+{
+	"info": {
+		"_postman_id": "c277c53f-3e3e-41fc-8cc6-b5bf83c56f3f",
+		"name": "RTW-Health and Wellness Reporting",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://xxx.execute-api.us-east-1.amazonaws.com/dev/getprofile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "xxx",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"slugid\": \"xxx\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://xxx.execute-api.us-east-1.amazonaws.com/dev/getprofile",
+					"protocol": "https",
+					"host": [
+						"xxx",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"getprofile"
+					]
+				},
+				"description": "Get the profile info"
+			},
+			"response": []
+		},
+		{
+			"name": "https://xxx.execute-api.us-east-1.amazonaws.com/dev/createprofile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "xxx",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstname\": \"first_name\",\n    \"lastname\": \"last_name\",\n    \"location\": \"location\",\n    \"employeeid\": \"emp_id\",\n    \"emailid\": \"email_id\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://xxx.execute-api.us-east-1.amazonaws.com/dev/createprofile",
+					"protocol": "https",
+					"host": [
+						"xxx",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"createprofile"
+					]
+				},
+				"description": "Create a new profile of an employee"
+			},
+			"response": []
+		},
+		{
+			"name": "https://xxx.execute-api.us-east-1.amazonaws.com/dev/updateprofile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "xxx",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t  \"pk\":\"xxx\",\n      \"age\": \"18-44\",\n      \"gender\": \"male\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://xxx.execute-api.us-east-1.amazonaws.com/dev/updateprofile",
+					"protocol": "https",
+					"host": [
+						"xxx",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"updateprofile"
+					]
+				},
+				"description": "Update the age and gender in the employee profile"
+			},
+			"response": []
+		},
+		{
+			"name": "https://xxx.execute-api.us-east-1.amazonaws.com/dev/gethealthrecords",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "xxx",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"emailid\":\"Email_id\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://xxx.execute-api.us-east-1.amazonaws.com/dev/gethealthrecords",
+					"protocol": "https",
+					"host": [
+						"xxx",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"gethealthrecords"
+					]
+				},
+				"description": "Get the latest helath record of the user"
+			},
+			"response": []
+		},
+		{
+			"name": "https://xxx.execute-api.us-east-1.amazonaws.com/dev/createhealthrecord",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "xxx",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"ram@dxc.com\",\n    \"info\": {\n      \"temperature\": 108,\n      \"exercise\": 60,\n      \"healthcondition\": \" Improved\",\n      \"dependents\": \"Yes\",\n      \"dependentshealth\": \" Good\",\n       \"symptoms\": [\n      \"Chest pain/pressure\",\n      \"Bluish lips/face\",\n      \"Headache\"\n    ]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://xxx.execute-api.us-east-1.amazonaws.com/dev/createhealthrecord",
+					"protocol": "https",
+					"host": [
+						"xxx",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"createhealthrecord"
+					]
+				},
+				"description": "Create a health record for the employees"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

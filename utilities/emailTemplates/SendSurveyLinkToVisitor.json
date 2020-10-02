@@ -1,0 +1,7 @@
+{
+    "Template": {
+        "TemplateName": "StackName-SendSurveyLinkToVisitor",
+        "SubjectPart": "Your Project Soteria survey link for {{passLocation}}",
+        "HtmlPart": "You now have been enrolled into Project Soteria Survey. The unique link to your survey for {{passLocation}} is <a href=\"{{surveyLink}}\">here</a>.  Bookmark this link for daily reporting.  Please do not share this unique link with others."
+    }
+}

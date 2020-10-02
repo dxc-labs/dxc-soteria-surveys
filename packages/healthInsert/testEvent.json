@@ -1,0 +1,141 @@
+{
+    "resource": "/healthprofiles",
+    "path": "/surveys/healthprofiles",
+    "httpMethod": "POST",
+    "headers": {
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Authorization": "Io9Su4DdThuYrzGc42HQOA",
+        "CloudFront-Forwarded-Proto": "https",
+        "CloudFront-Is-Desktop-Viewer": "true",
+        "CloudFront-Is-Mobile-Viewer": "false",
+        "CloudFront-Is-SmartTV-Viewer": "false",
+        "CloudFront-Is-Tablet-Viewer": "false",
+        "CloudFront-Viewer-Country": "IN",
+        "content-type": "application/x-www-form-urlencoded",
+        "Host": "api-rthoutu.ckin.in",
+        "origin": "https://rthoutu.ckin.in",
+        "Referer": "https://rthoutu.ckin.in/surveys/ZCeRHBZZTN2Z5zB80RFzVg/Sv-RLRkLThG1n1sKd6YGLw",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36 Edg/85.0.564.44",
+        "Via": "2.0 5942c979074a900638c87b1a2345cc74.cloudfront.net (CloudFront)",
+        "X-Amz-Cf-Id": "tVD4dwxYxr0i35TBp0E4Oxb2j6pLjNHqnCmlfPvZofwiGWOkJE-rpw==",
+        "X-Amzn-Trace-Id": "Root=1-5f55e547-8c1f952d1485e0aeab91504d",
+        "X-Forwarded-For": "183.83.36.75, 70.132.25.79",
+        "X-Forwarded-Port": "443",
+        "X-Forwarded-Proto": "https"
+    },
+    "multiValueHeaders": {
+        "Accept": [
+            "application/json, text/plain, */*"
+        ],
+        "Accept-Encoding": [
+            "gzip, deflate, br"
+        ],
+        "Accept-Language": [
+            "en-US,en;q=0.9"
+        ],
+        "Authorization": [
+            "Io9Su4DdThuYrzGc42HQOA"
+        ],
+        "CloudFront-Forwarded-Proto": [
+            "https"
+        ],
+        "CloudFront-Is-Desktop-Viewer": [
+            "true"
+        ],
+        "CloudFront-Is-Mobile-Viewer": [
+            "false"
+        ],
+        "CloudFront-Is-SmartTV-Viewer": [
+            "false"
+        ],
+        "CloudFront-Is-Tablet-Viewer": [
+            "false"
+        ],
+        "CloudFront-Viewer-Country": [
+            "IN"
+        ],
+        "content-type": [
+            "application/x-www-form-urlencoded"
+        ],
+        "Host": [
+            "api-rthoutu.ckin.in"
+        ],
+        "origin": [
+            "https://rthoutu.ckin.in"
+        ],
+        "Referer": [
+            "https://rthoutu.ckin.in/surveys/ZCeRHBZZTN2Z5zB80RFzVg/Sv-RLRkLThG1n1sKd6YGLw"
+        ],
+        "sec-fetch-dest": [
+            "empty"
+        ],
+        "sec-fetch-mode": [
+            "cors"
+        ],
+        "sec-fetch-site": [
+            "same-site"
+        ],
+        "User-Agent": [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36 Edg/85.0.564.44"
+        ],
+        "Via": [
+            "2.0 5942c979074a900638c87b1a2345cc74.cloudfront.net (CloudFront)"
+        ],
+        "X-Amz-Cf-Id": [
+            "tVD4dwxYxr0i35TBp0E4Oxb2j6pLjNHqnCmlfPvZofwiGWOkJE-rpw=="
+        ],
+        "X-Amzn-Trace-Id": [
+            "Root=1-5f55e547-8c1f952d1485e0aeab91504d"
+        ],
+        "X-Forwarded-For": [
+            "183.83.36.75, 70.132.25.79"
+        ],
+        "X-Forwarded-Port": [
+            "443"
+        ],
+        "X-Forwarded-Proto": [
+            "https"
+        ]
+    },
+    "queryStringParameters": null,
+    "multiValueQueryStringParameters": null,
+    "pathParameters": null,
+    "stageVariables": null,
+    "requestContext": {
+        "resourceId": "du7gtd",
+        "resourcePath": "/healthprofiles",
+        "httpMethod": "POST",
+        "extendedRequestId": "SfDDMEhiIAMF0OQ=",
+        "requestTime": "07/Sep/2020:07:46:15 +0000",
+        "path": "/surveys/healthprofiles",
+        "accountId": "820984078938",
+        "protocol": "HTTP/1.1",
+        "stage": "sbx",
+        "domainPrefix": "api-rthoutu",
+        "requestTimeEpoch": 1599464775572,
+        "requestId": "ab978b05-ec4a-4d8b-9f33-37ad9ce39566",
+        "identity": {
+            "cognitoIdentityPoolId": null,
+            "accountId": null,
+            "cognitoIdentityId": null,
+            "caller": null,
+            "sourceIp": "183.83.36.75",
+            "principalOrgId": null,
+            "accessKey": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null,
+            "userArn": null,
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36 Edg/85.0.564.44",
+            "user": null
+        },
+        "domainName": "api-rthoutu.ckin.in",
+        "apiId": "g3o3awhs97"
+    },
+    "body": "{\"temperature\":\"Normal\",\"spo2\":\"> 93\",\"travelHistory\":\"No\",\"positiveContact\":\"No\",\"symptoms\":[],\"overallHealthStatus\":\"No Change\",\"userId\":\"Sv-RLRkLThG1n1sKd6YGLw\",\"surveyId\":\"ZCeRHBZZTN2Z5zB80RFzVg\"}",
+    "isBase64Encoded": false
+}

@@ -1,0 +1,91 @@
+{
+    "sk": "form",
+    "name": "VisitorHealthProfile",
+    "id": "J1noLURQTNaP8ejRZCCJqA",
+    "category1": "visitor",
+    "category2": "default",
+    "location": "Plano",
+    "country": "US",
+    "mandatedDays": 1,
+    "form":{
+      "title": "Health & Wellness Reporting",
+      "questions": [
+          {
+              "options":{
+                  "key":1,
+                  "field":"We care for you!! Please enter your Health Information in form below."
+              },
+              "type": "Typographys"
+            },
+            
+           {
+              "options":{
+                  "key":2,
+                  "field":"Temperature",
+                  "radioOption": ["Normal","High","Severe"],
+                  "name":"temperature",
+                  "required": true
+              },
+              "type": "RadioSelect"
+            },
+            {
+              "options":{
+                  "key":3,
+                  "field":"Spo2 %",
+                  "radioOption": ["> 93","90 to 93","< 90"],
+                  "name":"spo2",
+                  "required": true
+              },
+              "type": "RadioSelect"
+            },
+            {
+              "options":{
+                  "key":4,
+                  "field":"Have you traveled to any country in the last 14 days?",
+                  "radioOption": ["Yes","No"],
+                  "name":"travelHistory",
+                  "required": true
+              },
+              "type": "RadioSelect"
+            },
+            {
+              "options":{
+                  "key":5,
+                  "field":"Have you come in contact with any potentially infected person in the last 14 days?",
+                  "radioOption": ["Yes","No"],
+                  "name":"positiveContact",
+                  "required": true
+              },
+              "type": "RadioSelect"
+            },
+            {
+              "options":{
+                  "key":6,
+                  "field":"Symptoms (Select one or more)",
+                  "selectOption": ["Dry Cough", "Sore Throat", "Shortness of Breath", "Chest Pain/ pressure", "Confusion/ problems thinking", "Bluish lips/ face", "Fatigue", "Aches and Pain", "Headache", "Stuffy/ runny Nose", "Sneezing", "Loss of appetite/ smell",  "Vomiting", "Diarrhea"],
+                  "name":"symptoms",
+                  "required": true
+              },
+              "type": "RequestReason"
+            },
+            {
+              "options":{
+                  "key":7,
+                  "field":"Overall Health Status",
+                  "radioOption": ["No Change","Improved","Declined"],
+                  "name":"overallHealthStatus",
+                  "required": true
+              },
+              "type": "RadioSelect"
+            },
+            {
+              "options":{
+                  "key":8,
+                  "field":"Submit",
+                  "type": "submit"
+              },
+              "type": "SubmitButton"
+            }
+          ]
+    }
+  }

@@ -1,0 +1,1034 @@
+{
+	"info": {
+		"_postman_id": "389b8123-a58b-4ad1-8f19-38302798db43",
+		"name": "Surveys",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API-01-POST-profiles-success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "15546541-6381-406c-aef5-5d668397e05d",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response should have success message\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"         pm.expect(pm.response.text()).to.include(\"userId\");",
+							"});",
+							"postman.setEnvironmentVariable(\"USER_ID\", pm.response.json().userId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "passToken4Test",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{PROFILE_EMAIL}}\",\r\n    \"surveyId\": \"{{SURVEYID}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/surveys/profiles",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"surveys",
+						"profiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-02-POST-healthprofiles-success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "350eecd3-d1bc-474a-8858-503ccba8c501",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response body with correct return values\", function () {",
+							" var schema = ",
+							"{",
+							"            \"userId\": {",
+							"            \"type\": \"string\"",
+							"            },",
+							"                \"surveyId\": {",
+							"            \"type\": \"string\"",
+							"            },",
+							"                \"surveyAnswers\": {",
+							"                    \"temperature\": {",
+							"            \"type\": \"string\"",
+							"            },",
+							"                    \"spo2\": {",
+							"            \"type\": \"string\"",
+							"            },",
+							"                    \"travelHistory\":{",
+							"            \"type\": \"string\"",
+							"            },",
+							"                    \"positiveContact\": {",
+							"            \"type\": \"string\"",
+							"            },",
+							"                    \"symptoms\":  {",
+							"            \"type\": \"object\"",
+							"            },",
+							"                    \"overallHealthStatus\": {",
+							"            \"type\": \"string\"",
+							"            }",
+							"                },",
+							"                \"healthProfileId\": {",
+							"            \"type\": \"string\"",
+							"            },",
+							"                \"createdDate\": {",
+							"            \"type\": \"number\"",
+							"            },",
+							"                \"updatedDate\": {",
+							"            \"type\": \"number\"",
+							"            },",
+							"                \"ttl\": {",
+							"            \"type\": \"number\"",
+							"            }",
+							"    };",
+							"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+							"    setTimeout(function(){}, [15000]);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"temperature\": \"Normal\",\r\n    \"spo2\": \"> 93\",\r\n    \"travelHistory\": \"No\",\r\n    \"positiveContact\": \"No\",\r\n    \"symptoms\": [],\r\n    \"overallHealthStatus\": \"No Change\",\r\n    \"userId\": \"{{USER_ID}}\",\r\n    \"surveyId\": \"{{SURVEYID}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/surveys/healthprofiles",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"surveys",
+						"healthprofiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-03-POST-healthprofiles-failure-check-invalid-AuthToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "45a2d3a6-de45-447e-8e5b-847ecf1396a9",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(403);",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response should have success message\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"      pm.expect(pm.response.text()).equal(\"{}\")",
+							"    ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "invalid_auth_token",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"{{USER_ID}}\",\r\n    \"surveyId\": \"{{SURVEYID}}\",\r\n    \"temperature\": \"Severe\",\r\n    \"spo2\": \"90 to 93\",\r\n    \"travelHistory\": \"No\",\r\n    \"positiveContact\": \"No\",\r\n    \"symptoms\": [\r\n        \"Dry Cough\",\r\n        \"Chest Pain/ pressure\",\r\n        \"Shortness of Breath\"\r\n    ],\r\n    \"overallHealthStatus\": \"Improved\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/surveys/healthprofiles",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"surveys",
+						"healthprofiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-04-POST-healthprofiles-failure-check-wrong-user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a3e59a66-4fdb-4d07-a168-ccb8218f897e",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(404);",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response should have success message\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"     pm.expect(pm.response.text()).equal(\"{}\")",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"wrong_user_id\",\r\n    \"surveyId\": \"{{SURVEYID}}\",\r\n    \"temperature\": \"Severe\",\r\n    \"spo2\": \"90 to 93\",\r\n    \"travelHistory\": \"No\",\r\n    \"positiveContact\": \"No\",\r\n    \"symptoms\": [\r\n        \"Dry Cough\",\r\n        \"Chest Pain/ pressure\",\r\n        \"Shortness of Breath\"\r\n    ],\r\n    \"overallHealthStatus\": \"Improved\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/surveys/healthprofiles",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"surveys",
+						"healthprofiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-05-GET-healthstatus-failure-check-invalid-AuthToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0437ec87-cb31-4a53-bacb-7d229f1c2238",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(403);",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"",
+							"",
+							"pm.test(request.name+\" \"+\"Response should have success message\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"         pm.expect(pm.response.text()).equal(\"{}\")",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "invalid-auth_token",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/surveys/healthstatus/{{USER_ID}}",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"surveys",
+						"healthstatus",
+						"{{USER_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-06-GET-healthstatus-failure-check-wrong-user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9acf818a-8492-4a1b-8e3b-a96c3625e2b4",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(404);",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response should have success message\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"         pm.expect(pm.response.text()).equal(\"{}\")",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/surveys/healthstatus/wrong-user-id",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"surveys",
+						"healthstatus",
+						"wrong-user-id"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-07-GET-healthstatus-success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b3b8b02f-bad3-4097-a374-53c0b1c14779",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json;",
+							"});",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"pm.test(request.name+\" \"+\"Response body with correct return values \", function () {",
+							"",
+							" var expected_results = { \"badgeIssued\": \"yes\" };",
+							"",
+							"    const response = pm.response.json();",
+							"    if(response.user) {",
+							"        pm.expect(response.country).to.eql('US');",
+							"        pm.expect(response.user).to.eql(pm.environment.get(\"USER_ID\"));",
+							"        pm.expect(response.email).to.eql(pm.variables.get(\"PROFILE_EMAIL\"));",
+							"        pm.expect(response.badgeIssued).to.eql(\"no\");",
+							"        pm.expect(response.nDaysOfReporting).to.be.oneOf([0,1]);",
+							"        pm.expect(response.nDaysLeft).to.be.oneOf([0,1]);",
+							"        pm.expect(response.daysSubmitted).to.be.oneOf([0,1]);",
+							"      } else {",
+							"        pm.expect(pm.response.json()).to.be.include(expected_results)",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/surveys/healthstatus/{{USER_ID}}",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"surveys",
+						"healthstatus",
+						"{{USER_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-08-GET-findBySurvey-success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "72db3d1d-80e4-41ef-8481-c7d4b8b7ffe6",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json;",
+							"});",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"pm.test(request.name+\" \"+\"Response body with correct return values \", function () {",
+							"    const response = pm.response.json();",
+							"        pm.expect(response.userType).to.be.oneOf(['employee','visitor']);        ",
+							"        pm.expect(response.userId).to.eql(pm.environment.get(\"USER_ID\"));        ",
+							"        pm.expect(response.email).to.eql(pm.variables.get(\"PROFILE_EMAIL\"));       ",
+							"        pm.expect(response.badgeIssued).to.be.oneOf(['yes','no']);;        ",
+							"        pm.expect(response.surveyId).to.eql(pm.variables.get(\"SURVEYID\"));        ",
+							"        pm.expect(pm.response.json()).to.have.property(\"requestId\");        ",
+							"        pm.expect(pm.response.json()).to.have.property(\"updatedDate\");        ",
+							"        pm.expect(pm.response.json()).to.have.property(\"createdDate\");",
+							"        if(response.surveyLink) {        ",
+							"            pm.expect(response.surveyLink).to.include('https');       ",
+							"        }",
+							"     });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/surveys/findBySurvey/{{PROFILE_EMAIL}}/{{SURVEYID}}",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"surveys",
+						"findBySurvey",
+						"{{PROFILE_EMAIL}}",
+						"{{SURVEYID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-09-GET-findBySurvey-failure",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aa0143d4-c457-4cde-9470-af14d9e98eed",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"pm.test(request.name+\" \"+\"Response body with empty json \", function () {  ",
+							"    pm.expect(pm.response.text()).equal(\"{}\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/surveys/findBySurvey/{{INVALID_EMAIL}}/{{SURVEYID}}",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"surveys",
+						"findBySurvey",
+						"{{INVALID_EMAIL}}",
+						"{{SURVEYID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-10-DEL-findByUser-success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cbef1099-af62-4e7e-9903-18c65c7dbb41",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { \r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {\r",
+							"     pm.response.to.be.withBody;\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response body with empty json \", function () {  \r",
+							"    pm.expect(pm.response.text()).equal(\"{}\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": " */*,",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json,",
+						"type": "text"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/surveys/profiles/findByUser/?userId={{PROFILE_EMAIL}}",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"surveys",
+						"profiles",
+						"findByUser",
+						""
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "{{PROFILE_EMAIL}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-11-DEL-findByUser-invalid-ApiKey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0cf88a31-c779-4c5c-9fec-b7c248472eb4",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { \r",
+							"    pm.response.to.have.status(403);\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {\r",
+							"     pm.response.to.be.withBody;\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response body with correct return values \", function () {  \r",
+							"    pm.expect(pm.response.json().message).equal(\"Forbidden\")\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": " */*,",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json,",
+						"type": "text"
+					},
+					{
+						"key": "x-api-key",
+						"value": "yeOmFRHkku89shljljvls0rCej9xUo9ehsn",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/surveys/profiles/findByUser/?userId={{PROFILE_EMAIL}}",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"surveys",
+						"profiles",
+						"findByUser",
+						""
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "{{PROFILE_EMAIL}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-12-DEL-findByUser-invalid-user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ae8b7ac1-2d9a-42d1-a80d-ba0f90072928",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { \r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {\r",
+							"     pm.response.to.be.withBody;\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response body with empty json \", function () {  \r",
+							"    pm.expect(pm.response.text()).equal(\"{}\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": " */*,"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json,"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/surveys/profiles/findByUser?userId={{PROFILE_EMAIL}}",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"surveys",
+						"profiles",
+						"findByUser"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "{{PROFILE_EMAIL}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-13-PATCH-MOTD-failure",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0802b737-244b-402d-af46-18c721d11d8b",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(500);",
+							"});",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"pm.test(request.name+\" \"+\"Response body with empty json \", function () {  ",
+							"    pm.expect(pm.response.text()).equal(\"{}\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/surveys/messageOfTheDay",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"surveys",
+						"messageOfTheDay"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-14-PATCH-MOTD-success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c8b4aac6-97f3-4013-be8b-cdc75f3763c9",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"pm.test(request.name+\" \"+\"Response body with empty json \", function () {  ",
+							"    pm.expect(pm.response.text()).equal(\"{}\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n \"data\":\"### Protect yourself and others from the spread of infections:\\n*\\tKeep your distance\\n*\\tWear Personal Protective Equipment in public\\n*\\tWash your hands often with soap and water\\n*\\tAvoid close contact with people who are sick\\n*\\tCover your mouth and nose with a cloth face cover\\n*\\tCover your coughs and sneezes\\n*\\tClean and disinfect frequently touched surfaces daily\"\r\n\r\n }"
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/surveys/messageOfTheDay",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"surveys",
+						"messageOfTheDay"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-15-GET-MOTD-success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acc704e3-3973-479f-9d63-24d444cad2a5",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json;",
+							"});",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"pm.test(request.name+\" \"+\"Response body with correct return values \", function () {",
+							"    var expected_results = {",
+							"        \"isCustom\": true",
+							"    };",
+							"    pm.expect(pm.response.json()).to.be.include(expected_results)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/surveys/isMessageOfTheDayCustom",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"surveys",
+						"isMessageOfTheDayCustom"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "aaa2b208-fba4-404b-90c6-0a7849007cd5",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "ec7c32c4-457f-42af-ae09-98e0a629bd22",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "091de222-9c13-444f-8da3-d302351953ad",
+			"key": "API_TOKEN",
+			"value": "xxx"
+		},
+		{
+			"id": "cd90a0d8-2f83-440a-aa16-f4ead0ac7396",
+			"key": "SURVEYID",
+			"value": "xxx"
+		},
+		{
+			"id": "e8fbdd61-5be2-4c94-b42c-462b361d3653",
+			"key": "PROFILE_EMAIL",
+			"value": "xxx.onmicrosoft.com@amer.teams.ms"
+		},
+		{
+			"id": "d41b23b9-8164-4d0c-9fed-ff339b799380",
+			"key": "INVALID_EMAIL",
+			"value": "testUser@test"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

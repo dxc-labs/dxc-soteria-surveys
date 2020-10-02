@@ -1,0 +1,7 @@
+{
+    "Template": {
+        "TemplateName": "StackName-NotifyEnrolledToVisitorSurvey",
+        "SubjectPart": "Your Project Soteria survey link for {{passLocation}}",
+        "HtmlPart": "You are already enrolled. Please use the survey link for {{passLocation}} that you received at the time of enrollment."
+    }
+}

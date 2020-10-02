@@ -1,0 +1,68 @@
+{
+    "Records": [
+        {
+            "eventID": "567456a7eb930013bfa7d2a41ee41136",
+            "eventName": "INSERT",
+            "eventVersion": "1.1",
+            "eventSource": "aws:dynamodb",
+            "awsRegion": "us-east-1",
+            "dynamodb": {
+                "ApproximateCreationDateTime": 1599495784,
+                "Keys": {
+                    "createdDate": {
+                        "N": "1599495783585"
+                    },
+                    "userId": {
+                        "S": "Sv-RLRkLThG1n1sKd6YGLw"
+                    }
+                },
+                "NewImage": {
+                    "surveyId": {
+                        "S": "ZCeRHBZZTN2Z5zB80RFzVg"
+                    },
+                    "createdDate": {
+                        "N": "1599495783585"
+                    },
+                    "surveyAnswers": {
+                        "M": {
+                            "symptoms": {
+                                "L": []
+                            },
+                            "overallHealthStatus": {
+                                "S": "No Change"
+                            },
+                            "positiveContact": {
+                                "S": "No"
+                            },
+                            "spo2": {
+                                "S": "> 93"
+                            },
+                            "temperature": {
+                                "S": "Normal"
+                            },
+                            "travelHistory": {
+                                "S": "No"
+                            }
+                        }
+                    },
+                    "updatedDate": {
+                        "N": "1599495783585"
+                    },
+                    "ttl": {
+                        "N": "1601223783546"
+                    },
+                    "userId": {
+                        "S": "Sv-RLRkLThG1n1sKd6YGLw"
+                    },
+                    "healthProfileId": {
+                        "S": "AoZFNc56SIW6v_tjmeiROw"
+                    }
+                },
+                "SequenceNumber": "47766600000000000146414516",
+                "SizeBytes": 309,
+                "StreamViewType": "NEW_AND_OLD_IMAGES"
+            },
+            "eventSourceARN": "arn:aws:dynamodb:us-east-1:820984078938:table/soteria-rthoutu-sbx-surveys-healthprofiles/stream/2020-08-28T13:25:20.354"
+        }
+    ]
+}

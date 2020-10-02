@@ -1,0 +1,15 @@
+{
+    "resource": "/messageOfTheDay",
+    "path": "/surveys/messageOfTheDay",
+    "httpMethod": "PATCH",
+    "headers": {
+    },
+    "multiValueHeaders": {
+    },
+    "queryStringParameters": null,
+    "pathParameters": {
+    },
+    "body": "{\r\n\r\n \"data\":\"### Protect yourself and others from the spread of infections:\\n*\\tKeep your distance\\n*\\tWear Personal Protective Equipment in public\\n*\\tWash your hands often with soap and water\\n*\\tAvoid close contact with people who are sick\\n*\\tCover your mouth and nose with a cloth face cover\\n*\\tCover your coughs and sneezes\\n*\\tClean and disinfect frequently touched surfaces daily\"\r\n\r\n }"
+    ,
+    "isBase64Encoded": false
+}

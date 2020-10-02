@@ -1,0 +1,106 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Soteria component stack
+Transform: AWS::Serverless-2016-10-31
+Parameters:
+  OverrideRiskApi:
+    Description: "Override Risk API (Specify full API URL with method)"
+    Type: String
+    Default: "none"
+
+  OverrideRulesApi:
+    Description: "Override Rules API (Specify full API URL withOUT method)"
+    Type: String
+    Default: "none"
+
+  OverrideDashboardsApi:
+    Description: "Override Dashboards API (Specify full API URL withOUT method)"
+    Type: String
+    Default: "none"
+
+  CanaryDeploymentType:
+    Type: String
+    Description: Deployment Preference Type
+    Default: "Canary10Percent5Minutes"
+
+#!#########################################################################################
+#! Resources:
+#!#########################################################################################
+Resources:
+
+  # Topic: #no-op
+  #   Type: AWS::SNS::Topic
+
+  # CDNStack:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: ./cdn/cf-cdn.yaml
+  #     Parameters:
+  #         StackName: !Sub "${AWS::StackName}"
+  #         UserDomainName:
+  #           Fn::ImportValue:
+  #               !Join
+  #                   - '-'
+  #                   - - !Select [0, !Split ['-', !Ref AWS::StackName]]
+  #                     - !Select [1, !Split ['-', !Ref AWS::StackName]]
+  #                     - !Select [2, !Split ['-', !Ref AWS::StackName]]
+  #                     - 'domains-UserDomainName'
+  #         AppDomainName: !Ref AppDomainName
+
+  LambdaStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./api-gateway/cf-api.yaml
+      Parameters:
+          StackName: !Sub "${AWS::StackName}"
+          UserDomainName:
+            Fn::ImportValue:
+                !Join
+                    - '-'
+                    - - !Select [0, !Split ['-', !Ref AWS::StackName]]
+                      - !Select [1, !Split ['-', !Ref AWS::StackName]]
+                      - !Select [2, !Split ['-', !Ref AWS::StackName]]
+                      - 'domains-UserDomainName'
+          ApiDomainName:
+            Fn::ImportValue:
+                !Join
+                    - '-'
+                    - - !Select [0, !Split ['-', !Ref AWS::StackName]]
+                      - !Select [1, !Split ['-', !Ref AWS::StackName]]
+                      - !Select [2, !Split ['-', !Ref AWS::StackName]]
+                      - 'api-domainName'
+          OpenApiBucket:
+            !Join
+              - '-'
+              - - !Select [0, !Split ['-', !Ref AWS::StackName]]
+                - !Select [1, !Split ['-', !Ref AWS::StackName]]
+                - !Select [2, !Split ['-', !Ref AWS::StackName]]
+                - 'api-openapi/surveys'
+          OriginBucketName:
+            !Join
+              - '-'
+              - - !Select [0, !Split ['-', !Ref AWS::StackName]]
+                - !Select [1, !Split ['-', !Ref AWS::StackName]]
+                - !Select [2, !Split ['-', !Ref AWS::StackName]]
+                - 'distribution-origin'
+          # serviceNowAPIURL: "https://xxx.service-now.com/api/now/import/x_mpsc_soteria_safety_suite"
+          OverrideRiskApi: !Sub "${OverrideRiskApi}"
+          OverrideRulesApi: !Sub "${OverrideRulesApi}"
+          OverrideDashboardsApi: !Sub "${OverrideDashboardsApi}"
+          CanaryDeploymentType: !Ref CanaryDeploymentType
+          CognitoUserPoolArn: !Sub
+          - 'arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${poolId}'
+          - poolId:
+              Fn::ImportValue:
+                !Join
+                  - '-'
+                  - - !Select [0, !Split ['-', !Ref AWS::StackName]]
+                    - !Select [1, !Split ['-', !Ref AWS::StackName]]
+                    - !Select [2, !Split ['-', !Ref AWS::StackName]]
+                    - 'identity-user-pool-id'
+
+Outputs:
+  SurveysApi:
+    Value:
+      Fn::GetAtt: [LambdaStack, Outputs.SurveysApi]
+    Export:
+      Name: !Sub "${AWS::StackName}-api"

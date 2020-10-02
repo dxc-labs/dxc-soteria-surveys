@@ -1,0 +1,642 @@
+---
+  #
+  # Template usage:
+  #   This template depends on the following stacks.
+  #   * Database
+  #   * Authentication
+
+  AWSTemplateFormatVersion: 2010-09-09
+  Description: Surveys API
+  Transform: AWS::Serverless-2016-10-31
+
+  ###########################################################################################
+  ## Parameters:
+  ###########################################################################################
+
+  Parameters:
+    StackName:
+      Type: String
+
+    UserDomainName:
+      Type: String
+
+    ApiDomainName:
+      Type: String
+
+    OpenApiBucket:
+      Type: String
+      Description: Name bucket which holds temp files
+      ConstraintDescription: Must contain only alphanumeric characters [a-zA-Z0-9].
+
+    # serviceNowAPIURL:
+    #   Type: String
+    #   Description: ServiceNow url
+
+    OverrideRiskApi:
+      Type: String
+      Description: Override Base URL of the Risk API
+
+    OverrideRulesApi:
+      Type: String
+      Description: Override Base URL of the Rules API
+
+    OverrideDashboardsApi:
+      Type: String
+      Description: Override Base URL of the Dashboards API
+
+    CanaryDeploymentType:
+      Type: String
+      Description: Deployment Preference Type
+      Default: "Canary10Percent5Minutes"
+
+    OriginBucketName:
+        Type: String
+        Description: Distribution origin bucket
+
+    CognitoUserPoolArn:
+        Type: String
+        Description: Cognito User Pool ARN
+
+  ###########################################################################################
+  ## Conditions:
+  ###########################################################################################
+  Conditions:
+    IsOverrideRiskApi: !Not [ !Equals [ !Ref OverrideRiskApi, none] ]
+    IsOverrideRulesApi: !Not [ !Equals [ !Ref OverrideRulesApi, none] ]
+    IsOverrideDashboardsApi: !Not [ !Equals [ !Ref OverrideDashboardsApi, none] ]
+
+  Globals:
+    Function:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      Timeout: 60
+      MemorySize: 128
+      AutoPublishAlias: live
+      DeploymentPreference:
+        Type: !Ref CanaryDeploymentType
+        # Hooks:
+        #   # Validation Lambda functions that are run before & after traffic shifting
+        #   PreTraffic: !Ref PreTrafficLambdaFunction
+        #   PostTraffic: !Ref PostTrafficLambdaFunction
+
+  # Conditions:
+  #   IsProduction:
+  #     Fn::Equals:
+  #       - !Ref Environment
+  #       - prod
+  #   IsDevelopment:
+  #     Fn::Equals:
+  #       - !Ref Environment
+  #       - dev
+
+  ###########################################################################################
+  ## Resources:
+  ###########################################################################################
+  Resources:
+    ApiGatewayLambdaRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - apigateway.amazonaws.com
+                  - lambda.amazonaws.com
+                  - edgelambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: SurveysGatewayExecutePolicy
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - lambda:InvokeFunction
+                    - lambda:PublishVersion
+                    - dynamodb:*
+                    - lambda:*
+                    - s3:*
+                    - logs:*
+                    - ssm:*
+                  Resource:
+                    - !GetAtt ProfileGet.Arn
+                    - !GetAtt EnrollmentInsert.Arn
+                    - !GetAtt HealthInsert.Arn
+                    - !GetAtt HealthActions.Arn
+                    - !GetAtt HealthStatusGet.Arn
+                    - !GetAtt UserDelete.Arn
+                    - !GetAtt UpdateMessageOfTheDay.Arn
+                    - !GetAtt IsMessageOfTheDayCustom.Arn
+                    - !GetAtt FindBySurvey.Arn
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+    SurveysGatewayExecuteRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - lambda.amazonaws.com
+              - edgelambda.amazonaws.com
+            Action: sts:AssumeRole
+        Policies:
+          - PolicyName: SurveysGatewayExecutePolicy
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - lambda:InvokeFunction
+                    - lambda:PublishVersion
+                    - dynamodb:*
+                    - lambda:*
+                    - s3:*
+                    - logs:*
+                    - ssm:*
+                    - ses:SendEmail
+                    - ses:SendRawEmail
+                  Resource: "*"
+          - PolicyName: SurveysKMSExecutePolicy
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - kms:Encrypt
+                    - kms:Decrypt
+                  Resource: "arn:aws:kms:*:*:key/*"
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+
+    # ##############################################
+    # # AWS::Lambda::*
+    # ##############################################
+
+    SurveysLambdaLayer:
+      Type: AWS::Serverless::LayerVersion
+      Properties:
+        CompatibleRuntimes:
+          - nodejs12.x
+        ContentUri: ./../../packages/layer
+        Description: Lambda layer for surveys
+        LayerName: !Sub "${StackName}-layer"
+
+    ProfileGet:
+      Type: AWS::Serverless::Function
+      Properties:
+        FunctionName: !Sub "${StackName}-profileGet"
+        CodeUri: ./../../packages/profileGet
+        Environment:
+          Variables:
+            enrollmentTable: !Sub "${StackName}-userprofiles"
+            splitTokenParamName: !Sub "${StackName}-splitTokenKey"
+        Description: profileGet
+        Role: !GetAtt SurveysGatewayExecuteRole.Arn
+        Timeout: 30
+        Policies:
+          - DynamoDBCrudPolicy:
+              TableName: !Sub "${StackName}-userprofiles"
+        Layers:
+          - !Ref SurveysLambdaLayer
+        Tags:
+          System: !Ref AWS::StackName
+
+    EnrollmentInsert:
+      Type: AWS::Serverless::Function
+      Properties:
+        FunctionName: !Sub "${StackName}-enrollmentInsert"
+        CodeUri: ./../../packages/enrollmentInsert
+        Environment:
+          Variables:
+            enrollmentTable: !Sub "${StackName}-userprofiles"
+            sourceEmailId: !Sub "r2w@${UserDomainName}"
+            surveyBaseURL: !Sub "https://${UserDomainName}/surveys"
+            formsAPIBaseURL: !Sub "https://${ApiDomainName}/forms"
+            emailIndex: EmailIndex
+            dashboardEmailAPIBaseURL: !If [IsOverrideDashboardsApi, !Ref OverrideDashboardsApi, !Sub "https://${ApiDomainName}/dashboards/ext/sendtemplatemail"]
+            dashboardsAPIKeyParamName: !Sub "${StackName}-dashboardsAPIKey"
+            splitTokenParamName: !Sub "${StackName}-splitTokenKey"
+            testUserListParamName: !Sub "${StackName}-testUserList"
+            testCaseEmailListParamName: !Sub "${StackName}-testCaseEmailList"
+            enableTestModeParamName: !Sub "${StackName}-enableTestMode"
+            emailTemplateNotifyEnrolledToEmployeeSurvey: !Sub "${StackName}-NotifyEnrolledToEmployeeSurvey"
+            emailTemplateNotifyEnrolledToVisitorSurvey: !Sub "${StackName}-NotifyEnrolledToVisitorSurvey"
+            emailTemplateSendSurveyLinkToEmployee: !Sub "${StackName}-SendSurveyLinkToEmployee"
+            emailTemplateSendSurveyLinkToVisitor: !Sub "${StackName}-SendSurveyLinkToVisitor"
+        Description: enrollmentInsert
+        Role: !GetAtt SurveysGatewayExecuteRole.Arn
+        Timeout: 30
+        Policies:
+          - DynamoDBCrudPolicy:
+              TableName: !Sub "${StackName}-userprofiles"
+        Layers:
+          - !Ref SurveysLambdaLayer
+        Tags:
+          System: !Ref AWS::StackName
+
+    HealthInsert:
+      Type: AWS::Serverless::Function
+      Properties:
+        FunctionName: !Sub "${StackName}-healthInsert"
+        CodeUri: ./../../packages/healthInsert
+        Environment:
+          Variables:
+            healthProfilesTable: !Sub "${StackName}-healthprofiles"
+            enrollmentTable: !Sub "${StackName}-userprofiles"
+            splitTokenParamName: !Sub "${StackName}-splitTokenKey"
+            dataLifeTimeInDaysParamName: !Sub "${StackName}-dataLifeTimeInDaysKey"
+        Description: healthInsert
+        Role: !GetAtt SurveysGatewayExecuteRole.Arn
+        Timeout: 30
+        Policies:
+          - DynamoDBCrudPolicy:
+              TableName: !Sub "${StackName}-healthprofiles"
+        Layers:
+          - !Ref SurveysLambdaLayer
+        Tags:
+          System: !Ref AWS::StackName
+
+    HealthActions:
+      Type: AWS::Serverless::Function
+      Properties:
+        FunctionName: !Sub "${StackName}-triggerActions"
+        CodeUri: ./../../packages/triggerActions
+        Environment:
+          Variables:
+            healthProfilesTable: !Sub "${StackName}-healthprofiles"
+            enrollmentTable: !Sub "${StackName}-userprofiles"
+            rulesAPIBaseURL: !If [IsOverrideRulesApi, !Ref OverrideRulesApi, !Sub "https://${ApiDomainName}/rules"]
+            riskAPIURL: !If [IsOverrideRiskApi, !Ref OverrideRiskApi, !Sub "https://${ApiDomainName}/risk/classification"]
+            badgesRequestsURL: !Sub "https://${ApiDomainName}/badges/requests"
+            badgesRevokeURL: !Sub "https://${ApiDomainName}/badges/requests/revoke"
+            formsAPIBaseURL: !Sub "https://${ApiDomainName}/forms"
+            rulesAPIKeyParamName: !Sub "${StackName}-policyEngineAPIKey"
+            serviceNowAPIURLParamName: !Sub "${StackName}-serviceNowAPIURL"
+            serviceNowAPIKeyParamName: !Sub "${StackName}-serviceNowKey"
+            badgesAPIKeyParamName: !Sub "${StackName}-badgesAPIKey"
+            riskAPIKeyParamName: !Sub "${StackName}-riskAPIKey"
+            rulesAPIEnable: true
+            isEncryptRiskScore: true
+            kmsKeyAilas: !Sub alias/${StackName}-kmsAlias
+        Description: triggerActions
+        Role: !GetAtt SurveysGatewayExecuteRole.Arn
+        Timeout: 60
+        Policies:
+          - DynamoDBCrudPolicy:
+            healthProfilesTable: !Sub "${StackName}-healthprofiles"
+            enrollmentTable: !Sub "${StackName}-userprofiles"
+        Layers:
+          - !Ref SurveysLambdaLayer
+        Tags:
+          System: !Ref AWS::StackName
+
+    HealthStatusGet:
+      Type: AWS::Serverless::Function
+      Properties:
+        FunctionName: !Sub "${StackName}-healthStatusGet"
+        CodeUri: ./../../packages/healthStatusGet
+        Environment:
+          Variables:
+            healthProfilesTable: !Sub "${StackName}-healthprofiles"
+            enrollmentTable: !Sub "${StackName}-userprofiles"
+            rulesAPIBaseURL: !If [IsOverrideRulesApi, !Ref OverrideRulesApi, !Sub "https://${ApiDomainName}/rules"]
+            formsAPIBaseURL: !Sub "https://${ApiDomainName}/forms"
+            rulesAPIKeyParamName: !Sub "${StackName}-policyEngineAPIKey"
+            profileGetLambda: !Sub "${StackName}-profileGet"
+            splitTokenParamName: !Sub "${StackName}-splitTokenKey"
+            kmsKeyAilas: !Sub alias/${StackName}-kmsAlias
+        Description: healthStatusGet
+        Role: !GetAtt SurveysGatewayExecuteRole.Arn
+        Timeout: 60
+        Policies:
+          - DynamoDBCrudPolicy:
+            healthProfilesTable: !Sub "${StackName}-healthprofiles"
+            enrollmentTable: !Sub "${StackName}-userprofiles"
+        Layers:
+          - !Ref SurveysLambdaLayer
+        Tags:
+          System: !Ref AWS::StackName
+
+    UserDelete:
+      Type: AWS::Serverless::Function
+      Properties:
+        FunctionName: !Sub "${StackName}-userDelete"
+        CodeUri: ./../../packages/userDelete
+        Environment:
+          Variables:
+            healthProfilesTable: !Sub "${StackName}-healthprofiles"
+            enrollmentTable: !Sub "${StackName}-userprofiles"
+            emailIndex: EmailIndex
+        Description: userDelete
+        Role: !GetAtt SurveysGatewayExecuteRole.Arn
+        Policies:
+          - DynamoDBCrudPolicy:
+            healthProfilesTable: !Sub "${StackName}-healthprofiles"
+            enrollmentTable: !Sub "${StackName}-userprofiles"
+        Layers:
+          - !Ref SurveysLambdaLayer
+        Tags:
+          System: !Ref AWS::StackName
+
+    UpdateMessageOfTheDay:
+      Type: AWS::Serverless::Function
+      Properties:
+        FunctionName: !Sub "${StackName}-updateMessageOfTheDay"
+        CodeUri: ./../../packages/updateMessageOfTheDay
+        Environment:
+          Variables:
+            originBucket: !Sub "${OriginBucketName}"
+        Description: updateMessageOfTheDay
+        Role: !GetAtt SurveysGatewayExecuteRole.Arn
+        Layers:
+          - !Ref SurveysLambdaLayer
+        Tags:
+          System: !Ref AWS::StackName
+
+    IsMessageOfTheDayCustom:
+      Type: AWS::Serverless::Function
+      Properties:
+        FunctionName: !Sub "${StackName}-isMessageOfTheDayCustom"
+        CodeUri: ./../../packages/isMessageOfTheDayCustom
+        Environment:
+          Variables:
+            originBucket: !Sub "${OriginBucketName}"
+        Description: isMessageOfTheDayCustom
+        Role: !GetAtt SurveysGatewayExecuteRole.Arn
+        Layers:
+          - !Ref SurveysLambdaLayer
+        Tags:
+          System: !Ref AWS::StackName
+
+    FindBySurvey:
+      Type: AWS::Serverless::Function
+      Properties:
+        FunctionName: !Sub "${StackName}-findBySurvey"
+        CodeUri: ./../../packages/findBySurvey
+        Environment:
+          Variables:
+            enrollmentTable: !Sub "${StackName}-userprofiles"
+            emailIndex: EmailIndex
+        Description: findBySurvey
+        Role: !GetAtt SurveysGatewayExecuteRole.Arn
+        Policies:
+          - DynamoDBCrudPolicy:
+            enrollmentTable: !Sub "${StackName}-userprofiles"
+        Layers:
+          - !Ref SurveysLambdaLayer
+        Tags:
+          System: !Ref AWS::StackName
+
+
+    ##############################################
+    # PreTraffic and PostTraffic lambda functions
+    ##############################################
+    # PreTrafficLambdaFunction:
+    #   Type: AWS::Serverless::Function
+    #   Properties:
+    #     Handler: preTrafficHook.handler
+    #     CodeUri: ./../../packages/preTrafficHook
+    #     Policies:
+    #       - Version: "2012-10-17"
+    #         Statement:
+    #         - Effect: "Allow"
+    #           Action:
+    #             - "codedeploy:PutLifecycleEventHookExecutionStatus"
+    #           Resource:
+    #             !Sub 'arn:${AWS::Partition}:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentgroup:${ServerlessDeploymentApplication}/*'
+    #       - Version: "2012-10-17"
+    #         Statement:
+    #         - Effect: "Allow"
+    #           Action:
+    #             - "lambda:InvokeFunction"
+    #           Resource:
+    #             - !GetAtt ProfileGet.Arn
+    #             - !GetAtt EnrollmentInsert.Arn
+    #             - !GetAtt HealthGet.Arn
+    #             - !GetAtt HealthInsert.Arn
+    #             - !GetAtt HealthActions.Arn
+    #             - !GetAtt HealthStatusGet.Arn
+    #     FunctionName:
+    #       !Join
+    #         - '-'
+    #         - - 'CodeDeployHook_preTrafficHook'
+    #           - !Select [1, !Split ['-', !Ref AWS::StackName]]
+    #           - !Select [2, !Split ['-', !Ref AWS::StackName]]
+    #           - !Select [3, !Split ['-', !Ref AWS::StackName]]
+    #     DeploymentPreference:
+    #       Enabled: False
+
+    # PostTrafficLambdaFunction:
+    #   Type: AWS::Serverless::Function
+    #   Properties:
+    #     Handler: postTrafficHook.handler
+    #     CodeUri: ./../../packages/postTrafficHook
+    #     Policies:
+    #       - Version: "2012-10-17"
+    #         Statement:
+    #         - Effect: "Allow"
+    #           Action:
+    #             - "codedeploy:PutLifecycleEventHookExecutionStatus"
+    #           Resource:
+    #             !Sub 'arn:${AWS::Partition}:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentgroup:${ServerlessDeploymentApplication}/*'
+    #       - Version: "2012-10-17"
+    #         Statement:
+    #         - Effect: "Allow"
+    #           Action:
+    #             - "lambda:InvokeFunction"
+    #           Resource:
+    #             - !GetAtt ProfileGet.Arn
+    #             - !GetAtt EnrollmentInsert.Arn
+    #             - !GetAtt HealthGet.Arn
+    #             - !GetAtt HealthInsert.Arn
+    #             - !GetAtt HealthActions.Arn
+    #             - !GetAtt HealthStatusGet.Arn
+    #     FunctionName:
+    #       !Join
+    #         - '-'
+    #         - - 'CodeDeployHook_postTrafficHook'
+    #           - !Select [1, !Split ['-', !Ref AWS::StackName]]
+    #           - !Select [2, !Split ['-', !Ref AWS::StackName]]
+    #           - !Select [3, !Split ['-', !Ref AWS::StackName]]
+    #     DeploymentPreference:
+    #       Enabled: False
+
+    ##############################################
+    # AWS::ApiGateway::*
+    ##############################################
+
+    RTWAPI:
+      Type: AWS::Serverless::Api
+      Properties:
+        Name: !Sub "${StackName}-api"
+        StageName: !Select [2, !Split ['-', !Ref AWS::StackName]]
+        DefinitionBody:
+          "Fn::Transform":
+            Name: "AWS::Include"
+            Parameters:
+              Location: !Sub "s3://${OpenApiBucket}/openapi.yaml"
+
+    ApiGatewayBasePathMapping:
+      Type: AWS::ApiGateway::BasePathMapping
+      Properties:
+        BasePath: !Select [3, !Split ['-', !Ref AWS::StackName]]
+        DomainName: !Sub "${ApiDomainName}"
+        RestApiId: !Ref RTWAPI
+        Stage: !Ref RTWAPI.Stage
+
+    ApiKey:
+      Type: "AWS::ApiGateway::ApiKey"
+      DependsOn:
+          - RTWAPI
+      Properties:
+          Name: !Sub ${StackName}-apikey
+          Description: Badges API Key
+          Enabled: "true"
+          StageKeys:
+              - RestApiId: !Ref RTWAPI
+                StageName: !Ref RTWAPI.Stage
+
+    usagePlan:
+      Type: "AWS::ApiGateway::UsagePlan"
+      Properties:
+          ApiStages:
+              - ApiId: !Ref RTWAPI
+                Stage: !Ref RTWAPI.Stage
+          Description: Badges usage plan
+            # Quota:
+            #     Limit: 5000
+            #     Period: MONTH
+            # Throttle:
+            #     BurstLimit: 200
+            #     RateLimit: 100
+          UsagePlanName: !Sub ${StackName}-usage-plan
+
+    usagePlanKey:
+      Type: 'AWS::ApiGateway::UsagePlanKey'
+      DependsOn:
+          - RTWAPI
+          - ApiKey
+      Properties:
+          KeyId: !Ref ApiKey
+          KeyType: API_KEY
+          UsagePlanId: !Ref usagePlan
+
+    #*##############################################
+    #* AWS::DynamoDB ::*
+    #*##############################################
+
+    HWSRHealthDatabase:
+      Type: AWS::DynamoDB::Table
+      Properties:
+          TableName: !Sub "${StackName}-healthprofiles"
+          AttributeDefinitions:
+              - AttributeName: userId
+                AttributeType: S
+              - AttributeName: createdDate
+                AttributeType: N
+          KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: createdDate
+                KeyType: RANGE
+          StreamSpecification:
+              StreamViewType: NEW_AND_OLD_IMAGES
+          PointInTimeRecoverySpecification:
+              PointInTimeRecoveryEnabled: True
+          TimeToLiveSpecification:
+              AttributeName: ttl
+              Enabled: true
+          BillingMode: PAY_PER_REQUEST
+          Tags:
+              - Key: ApplicationName
+                Value: !Sub ${StackName}
+
+    HWSRProfileDatabase:
+        Type: AWS::DynamoDB::Table
+        Properties:
+            TableName: !Sub "${StackName}-userprofiles"
+            AttributeDefinitions:
+                - AttributeName: userId
+                  AttributeType: S
+                - AttributeName: email
+                  AttributeType: S
+            KeySchema:
+                - AttributeName: userId
+                  KeyType: HASH
+            GlobalSecondaryIndexes:
+            - IndexName: EmailIndex
+              KeySchema:
+              - AttributeName: email
+                KeyType: HASH
+              Projection:
+                ProjectionType: ALL
+            StreamSpecification:
+                StreamViewType: NEW_AND_OLD_IMAGES
+            PointInTimeRecoverySpecification:
+                PointInTimeRecoveryEnabled: True
+            TimeToLiveSpecification:
+                AttributeName: ttl
+                Enabled: false
+            BillingMode: PAY_PER_REQUEST
+            Tags:
+                - Key: ApplicationName
+                  Value: !Sub ${StackName}
+  ###############################################
+  ## AWS::EventSourceMapping:: *
+  ###############################################
+
+    LambdaEventSourceMapping:
+      Type: AWS::Lambda::EventSourceMapping
+      Properties:
+        Enabled: true
+        EventSourceArn: !GetAtt HWSRHealthDatabase.StreamArn
+        FunctionName: !Ref HealthActions
+        MaximumRetryAttempts: 3
+        StartingPosition: LATEST
+      DependsOn: [ HWSRHealthDatabase, HealthActions ]
+
+    # SSMParameterPolicy:
+    #   Type: "AWS::SSM::Parameter"
+    #   Properties:
+    #     Description: Policy Engine API Key
+    #     Name: !Sub "${StackName}-policyAPIKey"
+    #     Tier: Standard
+    #     Type: String
+    #     Value: !Sub '${PolicyEngineAPIKey}'
+
+    # SSMParameterSN:
+    #   Type: "AWS::SSM::Parameter"
+    #   Properties:
+    #     Description: Policy Engine API Key
+    #     Name: !Sub "${StackName}-serviceNowKey"
+    #     Tier: Standard
+    #     Type: String
+    #     Value: !Sub '${ServiceNowKey}'
+
+    # SSMParameterSplitToken:
+    #   Type: "AWS::SSM::Parameter"
+    #   Properties:
+    #     Description: Split Token Key
+    #     Name: !Sub "${StackName}-splitTokenKey"
+    #     Tier: Standard
+    #     Type: String
+    #     Value: !Sub '${SplitTokenKey}'
+  Outputs:
+    SurveysApi:
+      Value: !Join
+      - ''
+      - - 'https://'
+        - !Ref RTWAPI
+        - .execute-api.
+        - !Ref 'AWS::Region'
+        - .
+        - !Ref 'AWS::URLSuffix'
+        - /
+        - !Select [2, !Split ['-', !Ref AWS::StackName]]

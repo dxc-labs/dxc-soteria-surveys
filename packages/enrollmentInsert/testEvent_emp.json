@@ -1,0 +1,137 @@
+{
+    "resource": "/profiles",
+    "path": "/surveys/profiles",
+    "httpMethod": "POST",
+    "headers": {
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "CloudFront-Forwarded-Proto": "https",
+        "CloudFront-Is-Desktop-Viewer": "true",
+        "CloudFront-Is-Mobile-Viewer": "false",
+        "CloudFront-Is-SmartTV-Viewer": "false",
+        "CloudFront-Is-Tablet-Viewer": "false",
+        "CloudFront-Viewer-Country": "IN",
+        "content-type": "application/x-www-form-urlencoded",
+        "Host": "api-rthoutu.ckin.in",
+        "origin": "https://rthoutu.ckin.in",
+        "Referer": "https://rthoutu.ckin.in/surveys/visitorJoin/Plano/J1noLURQTNaP8ejRZCCJqA",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36 Edg/84.0.522.63",
+        "Via": "2.0 25454d3a44f67b7feb811ab907fccc66.cloudfront.net (CloudFront)",
+        "X-Amz-Cf-Id": "1KTnSqYMQFAs0T5UtTTD3ExIzHQG9IrYKYu9h5pVTLNslFILZ5TeTQ==",
+        "X-Amzn-Trace-Id": "Root=1-5f4889b3-1ba43870e2f5da6a4912cc9f",
+        "X-Forwarded-For": "183.83.36.163, 70.132.25.87",
+        "X-Forwarded-Port": "443",
+        "X-Forwarded-Proto": "https"
+    },
+    "multiValueHeaders": {
+        "Accept": [
+            "application/json, text/plain, */*"
+        ],
+        "Accept-Encoding": [
+            "gzip, deflate, br"
+        ],
+        "Accept-Language": [
+            "en-US,en;q=0.9"
+        ],
+        "CloudFront-Forwarded-Proto": [
+            "https"
+        ],
+        "CloudFront-Is-Desktop-Viewer": [
+            "true"
+        ],
+        "CloudFront-Is-Mobile-Viewer": [
+            "false"
+        ],
+        "CloudFront-Is-SmartTV-Viewer": [
+            "false"
+        ],
+        "CloudFront-Is-Tablet-Viewer": [
+            "false"
+        ],
+        "CloudFront-Viewer-Country": [
+            "IN"
+        ],
+        "content-type": [
+            "application/x-www-form-urlencoded"
+        ],
+        "Host": [
+            "api-rthoutu.ckin.in"
+        ],
+        "origin": [
+            "https://rthoutu.ckin.in"
+        ],
+        "Referer": [
+            "https://rthoutu.ckin.in/surveys/visitorJoin/Plano/J1noLURQTNaP8ejRZCCJqA"
+        ],
+        "sec-fetch-dest": [
+            "empty"
+        ],
+        "sec-fetch-mode": [
+            "cors"
+        ],
+        "sec-fetch-site": [
+            "same-site"
+        ],
+        "User-Agent": [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36 Edg/84.0.522.63"
+        ],
+        "Via": [
+            "2.0 25454d3a44f67b7feb811ab907fccc66.cloudfront.net (CloudFront)"
+        ],
+        "X-Amz-Cf-Id": [
+            "1KTnSqYMQFAs0T5UtTTD3ExIzHQG9IrYKYu9h5pVTLNslFILZ5TeTQ=="
+        ],
+        "X-Amzn-Trace-Id": [
+            "Root=1-5f4889b3-1ba43870e2f5da6a4912cc9f"
+        ],
+        "X-Forwarded-For": [
+            "183.83.36.163, 70.132.25.87"
+        ],
+        "X-Forwarded-Port": [
+            "443"
+        ],
+        "X-Forwarded-Proto": [
+            "https"
+        ]
+    },
+    "queryStringParameters": null,
+    "multiValueQueryStringParameters": null,
+    "pathParameters": null,
+    "stageVariables": null,
+    "requestContext": {
+        "resourceId": "ufs5vj",
+        "resourcePath": "/profiles",
+        "httpMethod": "POST",
+        "extendedRequestId": "R9p0BEI8oAMF49Q=",
+        "requestTime": "28/Aug/2020:04:36:03 +0000",
+        "path": "/surveys/profiles",
+        "accountId": "820984078938",
+        "protocol": "HTTP/1.1",
+        "stage": "sbx",
+        "domainPrefix": "api-rthoutu",
+        "requestTimeEpoch": 1598589363217,
+        "requestId": "b3d2b732-1d74-4902-bd2b-4ea5613197aa",
+        "identity": {
+            "cognitoIdentityPoolId": null,
+            "accountId": null,
+            "cognitoIdentityId": null,
+            "caller": null,
+            "sourceIp": "183.83.36.163",
+            "principalOrgId": null,
+            "accessKey": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null,
+            "userArn": null,
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36 Edg/84.0.522.63",
+            "user": null
+        },
+        "domainName": "api-rthoutu.ckin.in",
+        "apiId": "54vzfv2be7"
+    },
+    "body": "{\"email\":\"rthoutu@dxc.com\",\"surveyId\":\"ZCeRHBZZTN2Z5zB80RFzVg\"}",
+    "isBase64Encoded": false
+}

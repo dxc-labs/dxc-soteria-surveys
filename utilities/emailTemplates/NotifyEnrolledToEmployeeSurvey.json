@@ -1,0 +1,7 @@
+{
+    "Template": {
+        "TemplateName": "StackName-NotifyEnrolledToEmployeeSurvey",
+        "SubjectPart": "Your Project Soteria survey link",
+        "HtmlPart": "You are already enrolled. Please use the survey link that you received at the time of enrollment."
+    }
+}
